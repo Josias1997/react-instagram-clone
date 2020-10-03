@@ -69,7 +69,11 @@ function App() {
       authUser.user.updateProfile({
         displayName: username
       }).then(() => {
-        console.log("Ok");
+        const updateUser = {
+          ...user,
+          displayName: authUser.user.displayName
+        }
+        setUser(updateUser);
       }).catch(error => alert(error.message));
       setOpen(false);
     })
