@@ -57,7 +57,7 @@ function App() {
   }, [user, username])
 
   useEffect(() => {
-    db.collection('posts').onSnapshot(snapshot => {
+    db.collection('posts').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
       setPosts(snapshot.docs.map(doc => ({id: doc.id, post: doc.data()})))
     })
   }, []);
@@ -68,7 +68,9 @@ function App() {
     .then((authUser) => {
       authUser.user.updateProfile({
         displayName: username
-      });
+      }).then(() => {
+        console.log("Ok");
+      }).catch(error => alert(error.message));
       setOpen(false);
     })
     .catch((error) => alert(error.message))
@@ -174,6 +176,9 @@ function App() {
           </div>
         }
       </div>
+      {user && user.displayName ? <ImageUpload username={user.displayName} /> : <h3 style={{
+        textAlign: 'center'
+      }}>Sorry you need to login to upload!</h3>}
       {/* Header */}
       <div className="app__posts">
         <div className="app__postsLeft">
@@ -206,7 +211,6 @@ function App() {
         </div>
       </div>
       {/* Posts */}
-      {user && user.displayName ? <ImageUpload username={user.displayName} /> : <h3>Sorry you need to login to upload!</h3>}
     </div>
   );
 }
