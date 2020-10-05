@@ -38,3 +38,13 @@
 .app__postsRight {
   margin-left: 20px;
 }
+
+@media screen and (max-width: 785px) {
+  .app__posts {
+    flex-direction: column;
+  }
+
+  .app__postsRight {
+    margin: auto;
+  }
+}
